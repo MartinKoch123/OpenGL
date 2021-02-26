@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Quelldateien\Graphics">
+      <UniqueIdentifier>{3c05bd0e-f686-45c4-9e5e-6da8f5bfb8bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Graphics">
+      <UniqueIdentifier>{f70f96e9-e0ea-41cf-98c5-7b357f5942c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Systems">
+      <UniqueIdentifier>{b08f9b86-a571-4af7-a58e-14d9255a160c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Systems">
+      <UniqueIdentifier>{3f3d07d8-604d-435e-a425-d70b2ae7112a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Scenario">
+      <UniqueIdentifier>{289f7823-2938-41ee-824c-9a553e167898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Scenario">
+      <UniqueIdentifier>{04ed5718-4448-4cda-a659-65e748b84902}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Tools.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FramerateCalculator.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshDataGenerator.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderSet.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Track.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Vehicle.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleTrack.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiBodyObject.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Mat.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBody.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleTrackKeyboardInput.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadcopterKeyboardInput.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadrocopter.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Drag.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="GLMcheckError.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainTools.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectGenerator.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardEvents.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadcopterScenario.cpp">
+      <Filter>Quelldateien\Scenario</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicalVisualModel.cpp">
+      <Filter>Quelldateien\Scenario</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenario.cpp">
+      <Filter>Quelldateien\Scenario</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleTrackScenario.cpp">
+      <Filter>Quelldateien\Scenario</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadcopterController.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CopterControlScenario.cpp">
+      <Filter>Quelldateien\Scenario</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicalSystem.cpp">
+      <Filter>Quelldateien\Systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Tools.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FramerateCalculator.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDataGenerator.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderSet.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Track.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Vehicle.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleTrack.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiBodyObject.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mat.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadcopterKeyboardInput.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleTrackKeyboardInput.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCamera.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Quadrocopter.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Drag.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GLMcheckError.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainTools.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectGenerator.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardEvents.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadcopterScenario.h">
+      <Filter>Headerdateien\Scenario</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalVisualModel.h">
+      <Filter>Headerdateien\Scenario</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenario.h">
+      <Filter>Headerdateien\Scenario</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleTrackScenario.h">
+      <Filter>Headerdateien\Scenario</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadcopterController.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="CopterControlScenario.h">
+      <Filter>Headerdateien\Scenario</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicalSystem.h">
+      <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

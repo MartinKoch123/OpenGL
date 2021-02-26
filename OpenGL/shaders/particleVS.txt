@@ -1,0 +1,19 @@
+
+#version 330 core
+layout (location = 0) in vec3 a_Pos;
+layout (location = 1) in vec3 a_normal;
+layout (location = 2) in vec3 a_offset;
+
+out vec3 normal;
+out vec3 fragPosition;
+
+uniform mat4 body;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main(){
+	gl_Position = projection * view * model *(body * vec4(a_Pos, 1.0) + vec4(a_offset, 0.0));
+	fragPosition = vec3(gl_Position);
+	normal = normalize(mat3(transpose(inverse(model * body))) * a_normal); 
+}

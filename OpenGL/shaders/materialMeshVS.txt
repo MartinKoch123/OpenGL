@@ -1,0 +1,46 @@
+#version 330 core
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 normalIn;
+layout (location = 2) in vec3 ambientColor;
+layout (location = 3) in vec3 diffuseColor;
+layout (location = 4) in vec3 specularColor;
+layout (location = 5) in float shininess;
+
+struct ThreeComponentColor{
+	vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+
+struct Material{
+	ThreeComponentColor lightColors;
+	float shininess;
+};
+
+out vec3 normal;
+out vec3 fragPosition;
+out Material material;
+out vec3 test;
+
+uniform mat4 body;
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main(){
+    gl_Position = projection * view * model * body * vec4(aPos, 1.0);
+	fragPosition = vec3(model * body * vec4(aPos, 1.0));
+	normal = normalize(mat3(transpose(inverse(model * body))) * normalIn); 
+	Material myMaterial;
+	myMaterial.lightColors.ambient = ambientColor;
+	myMaterial.lightColors.diffuse = diffuseColor;
+	myMaterial.lightColors.specular = specularColor;
+	myMaterial.shininess = shininess;
+	
+	//myMaterial.lightColors.ambient = vec3(1.0f);
+	//myMaterial.lightColors.diffuse = vec3(1.0f);
+	//myMaterial.lightColors.specular = vec3(1.0f);
+	//myMaterial.shininess = 0.1;
+	test = ambientColor;
+	material = myMaterial;
+}
