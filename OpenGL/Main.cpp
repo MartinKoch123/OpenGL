@@ -1,17 +1,11 @@
 #pragma once
-#define SCENARIO 0 //0: SingleTrack, 1: Quadcopter flight, 2: Quadcopter control
-#define FULLSCREEN 0
-
 
 #include <glad/glad.h>
-//#define GLFW_INCLUDE_NONE
 #include <GLFW\glfw3.h>
 #include <glm/detail/setup.hpp>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
 #include <iostream>
 #include <vector>
 #include <string>
@@ -25,146 +19,104 @@
 #include "GLMcheckError.h"
 #include "SingleTrackScenario.h"
 #include "CopterControlScenario.h"
+#include "Screen.h"
+#include <exception>
 
+enum class ScenarioType { SingleTrack, QuadcopterFlight, QuadcopterControl };
+
+//constexpr ScenarioType SCENARIO_TYPE = ScenarioType::SingleTrack;
+constexpr ScenarioType SCENARIO_TYPE = ScenarioType::QuadcopterFlight;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void getKeyStates(KeyStates* keyStates, GLFWwindow *window);
+void getKeyStates(KeyStates &keyStates, GLFWwindow *window);
 
-// settings
-float lastX = SCREEN_WIDTH / 2.0f;
-float lastY = SCREEN_HEIGHT / 2.0f;
-glm::vec3 backgroundColor = glm::vec3(135, 206, 235)/256.0f;
-bool firstMouse = true;
+glm::vec3 BACKGROUND_COLOR = glm::vec3(135, 206, 235)/256.0f;
+constexpr unsigned int HOTKEY_RESTART = GLFW_KEY_F5;
+constexpr unsigned int HOTKEY_QUIT = GLFW_KEY_ESCAPE;
+constexpr unsigned int HOTKEY_TOGGLE_WINDOW_MODE = GLFW_KEY_F10;
+
+float lastX = 0, lastY = 0;
+float lastFrame = 0.0f, deltaTime = 0.0f;
+bool isFirstMouseMovement = false;
 Scenario* scenario;
-
-float lastFrame = 0.0f;
-float deltaTime = 0.0f;
-
-
-unsigned int screenWidth = SCREEN_WIDTH;
-unsigned int screenHeight = SCREEN_HEIGHT;
-
-unsigned int KEY_RESTART = GLFW_KEY_F5;
-unsigned int KEY_QUIT = GLFW_KEY_ESCAPE;
-
+Screen* screen;
+KeyboardEvents keyboardEvents;
+KeyStates keyStates;
+Renderer renderer;
 
 int main() {
 
-	// glfw: initialize and configure
-	// ------------------------------
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	// glfw window creation
-	// --------------------
-	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-	GLFWwindow* window;
-#if FULLSCREEN
-	screenWidth = mode->width;
-	screenHeight = mode->height;
-		window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
-#else
-	screenWidth = SCREEN_WIDTH;
-	screenHeight = SCREEN_HEIGHT; 
-	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL", NULL, NULL);
-#endif
-	if (window == NULL) {
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
+	try {
+		screen = new Screen();
 	}
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	// Initialize GLEW to setup the OpenGL Function pointers
-
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
+	catch (std::runtime_error& e) {
+		std::cout << e.what() << std::endl;
+		return 1;
 	}
-	glEnable(GL_DEPTH_TEST);
+	glfwSetFramebufferSizeCallback(screen->getWindow(), framebuffer_size_callback);
+	glfwSetCursorPosCallback(screen->getWindow(), mouse_callback);
 
-	// Text
-	TextRenderer::initialize(screenWidth, screenHeight);
+	TextRenderer::initialize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	// World
-	Renderer renderer = Renderer(screenWidth, screenHeight);
-	renderer.backgroundColor = backgroundColor;
-	
+	renderer = Renderer(SCREEN_WIDTH, SCREEN_HEIGHT);
+	renderer.backgroundColor = BACKGROUND_COLOR;
 
 	ObjectGenerator generator = ObjectGenerator();
-#if SCENARIO == 0
-	scenario = new SingleTrackScenario(&renderer, window, &generator);
-#elif SCENARIO == 1
-	scenario = new QuadcopterScenario(&renderer, window, &generator);
-#else
-	scenario = new CopterControlScenario(&renderer, &generator);
-#endif
-	KeyboardEvents keyboardEvents;
-	KeyStates keyStates;
-
-	
-	deltaTime = 0;
-	lastFrame = 0;
+	if (SCENARIO_TYPE == ScenarioType::SingleTrack)
+		scenario = new SingleTrackScenario(&renderer, &generator);
+	else if (SCENARIO_TYPE == ScenarioType::QuadcopterFlight)
+		scenario = new QuadcopterScenario(&renderer, &generator);
+	else
+		scenario = new CopterControlScenario(&renderer, &generator);
 		
-	while (!glfwWindowShouldClose(window)) {
+	while (!screen->shouldClose()) {
 		
-		getKeyStates(&keyStates, window);
+		glfwPollEvents();
+		getKeyStates(keyStates, screen->getWindow());
 		keyboardEvents.update(keyStates);
-		if (keyboardEvents.isPressed(KEY_QUIT))
-			glfwSetWindowShouldClose(window, true);
-		if (keyboardEvents.isPressed(KEY_RESTART))
+		if (keyboardEvents.isPressed(HOTKEY_QUIT))
+			screen->setShouldClose();
+		if (keyboardEvents.isPressed(HOTKEY_RESTART))
 			scenario->restart();
-		
+		if (keyboardEvents.wasTapped(HOTKEY_TOGGLE_WINDOW_MODE)) 
+			screen->toggleWindowMode();
+	
 		renderer.processKeyboardEvents(&keyboardEvents);
 		renderer.setView(scenario->getViewMatrix(), scenario->getCameraPosition());
 		renderer.draw();
 
 		scenario->onFrameChange(&keyboardEvents, deltaTime);
 
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+		glfwSwapBuffers(screen->getWindow());
+		
 
-		deltaTime = (float)glfwGetTime() - lastFrame;
-		lastFrame = (float)glfwGetTime();
+		deltaTime = glfwGetTime() - lastFrame;
+		lastFrame = glfwGetTime();
 	}
 
-	glfwTerminate();
+	screen->terminate();
+	delete scenario;
+	delete screen;
 	return 0;
 }
 
-void getKeyStates(KeyStates * keyStates, GLFWwindow * window) {
-	if (keyStates == NULL || window == NULL)
+void getKeyStates(KeyStates &keyStates, GLFWwindow * window) {
+	if (!window)
 		return;
-	for (unsigned int i = 0; i < NUMBER_GLFW_KEYS; i++) {
-		keyStates->states[i] = glfwGetKey(window, i);
-	}
+	for (unsigned int i = 0; i < NUMBER_GLFW_KEYS; i++) 
+		keyStates.states[i] = glfwGetKey(window, i);
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
-	
-	if (firstMouse) {
-		lastX = (float)xpos;
-		lastY = (float)ypos;
-		firstMouse = false;
+	if (isFirstMouseMovement) {
+ 		lastX = xpos; lastY = ypos;
+		isFirstMouseMovement = false;
 	}
-	float xoffset = (float)xpos - lastX;
-	float yoffset = lastY - (float)ypos;
-	lastX = (float)xpos;
-	lastY = (float)ypos;
-
-	scenario->mouseCallback((float)xoffset, (float)yoffset);
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos;
+	lastX = xpos; lastY = ypos;
+	scenario->mouseCallback(xoffset, yoffset);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -172,6 +124,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
+	renderer.setSize(width, height);
+	TextRenderer::initialize(width, height);
 	glViewport(0, 0, width, height);
 }
 

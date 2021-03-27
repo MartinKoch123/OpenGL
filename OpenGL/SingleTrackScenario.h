@@ -9,7 +9,7 @@
 
 class SingleTrackScenario : public Scenario{
 public:
-	SingleTrackScenario(Renderer* renderer, GLFWwindow* window, ObjectGenerator* generator);
+	SingleTrackScenario(Renderer* renderer, ObjectGenerator* generator);
 	SingleTrackScenario() {};
 	void onFrameChange(KeyboardEvents* keyboardEvents, float deltaTime);
 	glm::mat4 getViewMatrix();

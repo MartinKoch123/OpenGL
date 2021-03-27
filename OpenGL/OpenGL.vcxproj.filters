@@ -144,6 +144,9 @@
     <ClCompile Include="PhysicalSystem.cpp">
       <Filter>Quelldateien\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tools.h">
@@ -259,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="PhysicalSystem.h">
       <Filter>Headerdateien\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Headerdateien\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

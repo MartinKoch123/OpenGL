@@ -22,6 +22,7 @@ public:
 	glm::vec3 backgroundColor;
 	unsigned int getWidth() { return width; }
 	unsigned int getHeight() { return height; }
+	void setSize(unsigned int width, unsigned int height);
 private:
 	unsigned int width;
 	unsigned int height;

@@ -10,8 +10,8 @@
 
 const unsigned int NUMBER_GLFW_KEYS = 348;
 const float PI = 3.14159265359f;
-const unsigned int SCREEN_WIDTH = 1700;
-const unsigned int SCREEN_HEIGHT = 900;
+const unsigned int SCREEN_WIDTH = 1400;
+const unsigned int SCREEN_HEIGHT = 700;
 const unsigned int SHADOW_MAP_RESOLUTION = 4096;
 const float SHADOW_MAP_SIZE = 200.0f;
 const float RENDER_DISTANCE = 200.0f;

@@ -3,19 +3,14 @@
 
 Renderer::Renderer(unsigned int width, unsigned int height) {
 
-	this->width = width;
-	this->height = height;
-
 	this->objects = std::vector<MultiBodyObject*>();
 	numberPointLights = 0;
-
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, RENDER_DISTANCE);
 
 	shaders = ShaderSet("shaders/defaultVS.txt", "shaders/defaultFS.txt", "shaders/textureVS.txt", "shaders/textureFS.txt",
 		"shaders/lightSourceVS.txt.", "shaders/lightSourceFS.txt", "shaders/materialMeshVS.txt", "shaders/materialMeshFS.txt",
 		"shaders/particleVS.txt", "shaders/particleFS.txt", "shaders/defaultShadowMappingVS.txt", "shaders/defaultShadowMappingFS.txt", 
 		"shaders/depthMapVS.txt", "shaders/depthMapFS.txt", "shaders/instancingShadowMappingVS.txt");
-	shaders.setProjectionMatrix(projection);
+	setSize(width, height);
 
 	//glEnable(GL_CULL_FACE);
 
@@ -131,6 +126,13 @@ void Renderer::setView(glm::mat4 viewMatrix, glm::vec3 viewPosition) {
 void Renderer::processKeyboardEvents(KeyboardEvents* events) {
 	if (events->wasTapped(GLFW_KEY_F9))
 		renderDepthMap = !renderDepthMap;
+}
+
+void Renderer::setSize(unsigned int width, unsigned int height) {
+	this->width = width;
+	this->height = height;
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, RENDER_DISTANCE);
+	shaders.setProjectionMatrix(projection);
 }
 
 

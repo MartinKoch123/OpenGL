@@ -151,6 +151,7 @@
     <ClCompile Include="Quadrocopter.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="Scenario.cpp" />
+    <ClCompile Include="Screen.cpp" />
     <ClCompile Include="SingleTrack.cpp" />
     <ClCompile Include="SingleTrackScenario.cpp" />
     <ClCompile Include="Terrain.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Quadrocopter.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Scenario.h" />
+    <ClInclude Include="Screen.h" />
     <ClInclude Include="SingleTrack.h" />
     <ClInclude Include="SingleTrackScenario.h" />
     <ClInclude Include="Terrain.h" />

@@ -1,6 +1,6 @@
 #include "QuadcopterScenario.h"
 
-QuadcopterScenario::QuadcopterScenario(Renderer* renderer, GLFWwindow* window, ObjectGenerator* generator) :
+QuadcopterScenario::QuadcopterScenario(Renderer* renderer, ObjectGenerator* generator) :
 	Scenario(renderer->getWidth(), renderer->getHeight()) {
 
 	camera = Camera(-2.0f, 3.0f, 5.0f, 0.0f, 1.0f, 0.0f, -70.0f, 0.0f);

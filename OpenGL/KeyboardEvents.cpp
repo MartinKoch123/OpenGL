@@ -1,9 +1,7 @@
 #include "KeyboardEvents.h"
 
 KeyStates::KeyStates() {
-	for (unsigned int i = 0; i < NUMBER_GLFW_KEYS; i++) {
-		states[i] = GLFW_RELEASE;
-	}
+	std::fill(std::begin(states), std::end(states), GLFW_RELEASE);
 }
 
 bool KeyboardEvents::isPressed(unsigned int key) {

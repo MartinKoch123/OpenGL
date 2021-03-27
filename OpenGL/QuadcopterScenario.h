@@ -25,7 +25,7 @@
 
 class QuadcopterScenario : public Scenario {
 public:
-	QuadcopterScenario(Renderer* renderer, GLFWwindow* window, ObjectGenerator* generator);
+	QuadcopterScenario(Renderer* renderer, ObjectGenerator* generator);
 	QuadcopterScenario() {};
 	void onFrameChange(KeyboardEvents* keyboardEvents, float deltaTime);
 	glm::mat4 getViewMatrix();
