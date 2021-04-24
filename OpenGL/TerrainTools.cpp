@@ -1,11 +1,11 @@
 #include "TerrainTools.h"
 
 
-void TerrainTools::smoothHeightMap(HeightMapSuper *heightMap, int smoothSize) {
+void TerrainTools::smoothHeightMap(HeightMap*heightMap, int smoothSize) {
 	float sum, divisor, weight;
 
-	for (unsigned int iX = smoothSize; iX < heightMap->getSize() - smoothSize; iX++) {
-		for (unsigned int iZ = smoothSize; iZ < heightMap->getSize() - smoothSize; iZ++) {
+	for (unsigned int iX = smoothSize; iX < heightMap->size() - smoothSize; iX++) {
+		for (unsigned int iZ = smoothSize; iZ < heightMap->size() - smoothSize; iZ++) {
 
 			sum = 0.0f;
 			divisor = 0.0f;
@@ -23,7 +23,7 @@ void TerrainTools::smoothHeightMap(HeightMapSuper *heightMap, int smoothSize) {
 	}
 }
 
-void TerrainTools::generateSinNoise(HeightMapSuper *heightMap) {
+void TerrainTools::generateSinNoise(HeightMap*heightMap) {
 
 	float height;
 
@@ -36,8 +36,8 @@ void TerrainTools::generateSinNoise(HeightMapSuper *heightMap) {
 	sinNoises.push_back(Vec2(1.0f, 1.0f / 20.0f));
 	sinNoises.push_back(Vec2(1.0f, 1.0f / 15.0f));
 
-	for (unsigned int iX = 0; iX < heightMap->getSize(); iX++) {
-		for (unsigned int iZ = 0; iZ < heightMap->getSize(); iZ++) {
+	for (unsigned int iX = 0; iX < heightMap->size(); iX++) {
+		for (unsigned int iZ = 0; iZ < heightMap->size(); iZ++) {
 			height = 0.0f;
 			for (unsigned int iN = 0; iN < sinNoises.size(); iN++) {
 				height += sinNoises[iN].x() * sin2D(iX, iZ, sinNoises[iN].y(), 0.0f);
@@ -48,7 +48,7 @@ void TerrainTools::generateSinNoise(HeightMapSuper *heightMap) {
 	}
 }
 
-void TerrainTools::addPerlinNoise(HeightMapSuper * heightMap, unsigned int numberCells, float amplitude) {
+void TerrainTools::addPerlinNoise(HeightMap* heightMap, unsigned int numberCells, float amplitude) {
 
 	std::vector<std::vector<Vec2>> gradients;
 	Vec2 gradient;
@@ -63,10 +63,10 @@ void TerrainTools::addPerlinNoise(HeightMapSuper * heightMap, unsigned int numbe
 	float xMap, zMap, dotGradPosx0z0, dotGradPosx1z0, dotGradPosx0z1, dotGradPosx1z1, noiseValue, av0, av1, xMod, yMod;
 	int xCellIndex, zCellIndex;
 	Vec2 fromCornerx0z0, fromCornerx1z0, fromCornerx0z1, fromCornerx1z1;
-	for (unsigned int iX = 0; iX < heightMap->getSize(); iX++) {
-		xMap = (float)iX / (float)(heightMap->getSize() - 1);
-		for (unsigned int iZ = 0; iZ < heightMap->getSize(); iZ++) {
-			zMap = (float)iZ / (float)(heightMap->getSize() - 1);
+	for (unsigned int iX = 0; iX < heightMap->size(); iX++) {
+		xMap = (float)iX / (float)(heightMap->size() - 1);
+		for (unsigned int iZ = 0; iZ < heightMap->size(); iZ++) {
+			zMap = (float)iZ / (float)(heightMap->size() - 1);
 
 			xCellIndex = (int)floor(xMap * numberCells);
 			zCellIndex = (int)floor(zMap * numberCells);

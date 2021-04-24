@@ -18,17 +18,14 @@ public:
 	void addMultiBodyObject(MultiBodyObject* object);
 	void setDirectioalLight(DirectionalLight light);
 	void setView(glm::mat4 viewMatrix, glm::vec3 viewPosition);
-	void processKeyboardEvents(KeyboardEvents* events);
 	glm::vec3 backgroundColor;
 	unsigned int getWidth() { return width; }
 	unsigned int getHeight() { return height; }
 	void setSize(unsigned int width, unsigned int height);
+	void toggleDepthMapMode() { renderDepthMap = !renderDepthMap; }
 private:
-	unsigned int width;
-	unsigned int height;
-	unsigned int depthMap;
-	unsigned int depthMapFBO;
-	unsigned int depthQuadVAO;
+	unsigned int width, height;
+	unsigned int depthMap, depthMapFBO, depthQuadVAO;
 	glm::mat4 projection;
 	std::vector<MultiBodyObject*> objects;
 	ShaderSet shaders;

@@ -47,6 +47,10 @@ void Screen::setShouldClose() {
 	glfwSetWindowShouldClose(window, true);
 }
 
+void Screen::swapBuffers() {
+	glfwSwapBuffers(window);
+}
+
 void Screen::terminate() {
 	glfwTerminate();
 }

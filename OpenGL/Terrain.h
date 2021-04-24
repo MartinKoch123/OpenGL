@@ -1,69 +1,27 @@
 #pragma once
 #include "Mat.h"
 
-
-
-class HeightMapSuper {
+class HeightMap {
 public:
-	virtual float get(unsigned int x, unsigned int z) = 0;
-	virtual void set(unsigned int x, unsigned int y, float value) = 0;
-	virtual void add(unsigned int x, unsigned int y, float value) = 0;
-	virtual unsigned int getSize() = 0;
-};
-
-template <unsigned int size>
-class HeightMap : public HeightMapSuper {
-public:
-	HeightMap();
-	float get(unsigned int x, unsigned int z);
-	void set(unsigned int x, unsigned int z, float value);
-	void add(unsigned int x, unsigned int z, float value);
-	unsigned int getSize();
+	HeightMap(unsigned int size);
+	~HeightMap() { delete data; };
+	float get(unsigned int x, unsigned int z) { return data[x + z * _size]; };
+	void set(unsigned int x, unsigned int z, float value) { data[x + z * _size] = value; };
+	void add(unsigned int x, unsigned int z, float value) { data[x + z * _size] += value; };
+	unsigned int size() { return _size; };
 private:
-	float data[size][size];
+	float* data;
+	unsigned int _size;
 };
-
 
 class Terrain {
 public:
-	Terrain(float width, HeightMapSuper *heightMap);
-	Terrain() : Terrain(1, NULL) {};
-	HeightMapSuper *heightMap;
-	float getHeight(float x, float z);
-	float width;
+	Terrain(float width, HeightMap*heightMap);
+	float height(float x, float z);
+	float width() { return _width; }
+	HeightMap* heightMap() { return _heightMap; }
 private:
-	float edgeLength;
+	HeightMap* _heightMap;
+	float _width;
+	float _edgeLength{0.0f};
 };
-
-template<unsigned int size>
-inline HeightMap<size>::HeightMap() {
-	for (unsigned int x = 0; x < size; x++) {
-		for (unsigned int z = 0; z < size; z++) {
-			data[x][z] = 0.0f;
-		}
-	}
-}
-
-template<unsigned int size>
-inline float HeightMap<size>::get(unsigned int x, unsigned int z) {
-	if (x >= size || z >= size)
-		return 0.0f;
-	return data[x][z];
-}
-
-template<unsigned int size>
-inline void HeightMap<size>::set(unsigned int x, unsigned int z, float value) {
-	if (x >= size || z >= size)
-		return;
-	data[x][z] = value;
-}
-
-template<unsigned int size>
-inline void HeightMap<size>::add(unsigned int x, unsigned int z, float value) {
-	set(x, z, value + get(x, z));
-}
-
-template<unsigned int size>
-inline unsigned int HeightMap<size>::getSize() {
-	return size;
-}

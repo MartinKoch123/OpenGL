@@ -1,6 +1,5 @@
 #include "Renderer.h"
 
-
 Renderer::Renderer(unsigned int width, unsigned int height) {
 
 	this->objects = std::vector<MultiBodyObject*>();
@@ -81,7 +80,6 @@ void Renderer::draw() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 
-
 	// Normal rendering
 	if (!renderDepthMap) {
 		for (unsigned int iMBO = 0; iMBO < objects.size(); iMBO++) {
@@ -111,7 +109,6 @@ void Renderer::addMultiBodyObject(MultiBodyObject * object) {
 	}
 	if (numberPointLights > 0)
 		shaders.setNumberPointLights(numberPointLights);
-
 }
 
 void Renderer::setDirectioalLight(DirectionalLight light) {
@@ -121,11 +118,6 @@ void Renderer::setDirectioalLight(DirectionalLight light) {
 void Renderer::setView(glm::mat4 viewMatrix, glm::vec3 viewPosition) {
 	shaders.setViewMatrix(viewMatrix);
 	shaders.setViewPosition(viewPosition);
-}
-
-void Renderer::processKeyboardEvents(KeyboardEvents* events) {
-	if (events->wasTapped(GLFW_KEY_F9))
-		renderDepthMap = !renderDepthMap;
 }
 
 void Renderer::setSize(unsigned int width, unsigned int height) {

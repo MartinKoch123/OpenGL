@@ -34,12 +34,15 @@ public:
 protected:
 	void onSimulationIteration();
 private:
+	static constexpr float TERRAIN_SIZE = 400;
+	static constexpr unsigned int NUMBER_TREES = 500;
 	void processInput(KeyboardEvents* keyboardEvents, float deltaTime);
 	void processToggleCamera(KeyboardEvents* keyboardEvents);
 	PhysicalVisualModel<Quadrocopter, QuadrocopterInput> quadcopter;
 	QuadcopterKeyboardInput quadcopterKeyboardInput;
 	QuadrocopterInput quadcopterInput;
 	FreeCamera freeCamera;
-	unsigned int cameraMode;
+	enum class CameraMode { Free, Copter};
+	CameraMode cameraMode = CameraMode::Copter;
 };
 

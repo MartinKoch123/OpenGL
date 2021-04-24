@@ -9,7 +9,7 @@ public:
 	MultiBodyObject* createCar(glm::vec3 position);
 	MultiBodyObject* createTree(Terrain* terrain, float x, float z);
 	std::vector<ParticlesObject*> getInstancingTree(Terrain* terrain, unsigned int numberTrees);
-	MultiBodyObject * getTerrainObject(Terrain* terrain);
+	MultiBodyObject * getTerrainObject(Terrain& terrain);
 	MultiBodyObject * getQuadrocopter();
 	Mesh<Vertex>* square;
 	Mesh<Vertex>* cube;
@@ -26,6 +26,6 @@ public:
 	Texture* woodSteelBoxTexture;
 	Texture* woodSteelBoxTexture_specular;
 	Texture* defaultTexture_specular;
-	static const float TREE_SIZE;
+	static constexpr float TREE_SIZE = 1.0f;
 };
 

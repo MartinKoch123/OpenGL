@@ -16,6 +16,7 @@ public:
 	GLFWwindow* getWindow() { return window; };
 	bool shouldClose();
 	void setShouldClose();
+	void swapBuffers();
 private:
 	unsigned int width{ 100 }, height{ 100 };
 	bool isFullscreen{ false };

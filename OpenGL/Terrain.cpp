@@ -1,38 +1,37 @@
 #include "Terrain.h"
 
-Terrain::Terrain(float width, HeightMapSuper *heightMap) : width(width){
+HeightMap::HeightMap(unsigned int size) : _size(size) {
+	data = new float[size * size];
+	for (int i = 0; i < size * size; i++)
+		data[i] = 0;
+};
+
+Terrain::Terrain(float width, HeightMap*heightMap) : _width(width), _heightMap(heightMap){
 	if (width < 0.0f)
-		this->width = 10;
-	this->heightMap = heightMap;
-	if (heightMap == NULL)
-		edgeLength = 0.0f;
-	else
-		edgeLength = width / (heightMap->getSize() - 1);
+		throw std::invalid_argument("Width must be non-negative.");
+	if (heightMap == nullptr)
+		throw std::invalid_argument("Height map must not be null.");
+	_edgeLength = width / (_heightMap->size() - 1);
 }
 
-float Terrain::getHeight(float x, float z) {
-	if (abs(x) >= width / 2 || abs(z) >= width / 2)
+float Terrain::height(float x, float z) {
+	if (abs(x) >= _width / 2 || abs(z) >= _width / 2)
 		return 0.0f;
-	x += width / 2;
-	z += width / 2;
-	int iX = (int)(x / edgeLength);
-	int iZ = (int)(z / edgeLength);
-	float xRatio = (x - iX*edgeLength)/edgeLength;
-	float zRatio = (z - iZ*edgeLength)/edgeLength;
-
-	float result = heightMap->get(iX, iZ);
+	x += _width / 2;
+	z += _width / 2;
+	int iX = (int)(x / _edgeLength);
+	int iZ = (int)(z / _edgeLength);
+	float xRatio = (x - iX*_edgeLength)/_edgeLength;
+	float zRatio = (z - iZ*_edgeLength)/_edgeLength;
+	float result = _heightMap->get(iX, iZ);
 	if (xRatio > zRatio) {
-		result += xRatio * (heightMap->get(iX + 1, iZ) - heightMap->get(iX, iZ));
-		result += zRatio * (heightMap->get(iX + 1, iZ + 1) - heightMap->get(iX + 1, iZ));
+		result += xRatio * (_heightMap->get(iX + 1, iZ) - _heightMap->get(iX, iZ));
+		result += zRatio * (_heightMap->get(iX + 1, iZ + 1) - _heightMap->get(iX + 1, iZ));
 	}
 	else {
-		result += zRatio * (heightMap->get(iX, iZ + 1) - heightMap->get(iX, iZ));
-		result += xRatio * (heightMap->get(iX + 1, iZ + 1) - heightMap->get(iX, iZ + 1));
+		result += zRatio * (_heightMap->get(iX, iZ + 1) - _heightMap->get(iX, iZ));
+		result += xRatio * (_heightMap->get(iX + 1, iZ + 1) - _heightMap->get(iX, iZ + 1));
 	}
-
 	return result;
 }
-
-
-
 

@@ -19,9 +19,10 @@ protected:
 	void onSimulationIteration();
 	void mouseCallback(float xOffset, float yOffset);
 private:
+	static constexpr float TERRAIN_SIZE = 100;
 	PhysicalVisualModel<Quadrocopter, QuadrocopterInput> copter;
 	QuadrocopterInput copterInput;
-	QuadcopterController* controller;
-	HUDelement hudCopterState;
+	QuadcopterController* controller{ nullptr };
+	HUDelement hudCopterState;	
 };
 

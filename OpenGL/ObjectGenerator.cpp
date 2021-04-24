@@ -1,6 +1,6 @@
 #include "ObjectGenerator.h"
 
-const float ObjectGenerator::TREE_SIZE = 1.0f;
+using glm::vec3, std::vector;
 
 ObjectGenerator::ObjectGenerator() {
 	boxTexture = new Texture("container.jpg");
@@ -21,12 +21,12 @@ ObjectGenerator::ObjectGenerator() {
 }
 
 
-MultiBodyObject * ObjectGenerator::createCar(glm::vec3 position) {
-	UnicolorObject* mainBody = new UnicolorObject(cube, glm::vec3(0.0f, 0.3f, 0.0f), glm::vec3(0.0f), glm::vec3(2.56f, 0.2f, 0.2f), Material(Material::black_plastic));
-	UnicolorObject* frontWheel = new UnicolorObject(cylinder, glm::vec3(1.19f, 0.3f, 0.0f), glm::vec3(glm::radians(90.0f), 0.0f, 0.0f), glm::vec3(0.3f, 0.6f, 0.3f), Material(Material::ruby));
-	UnicolorObject* backWheel = new UnicolorObject(cylinder, glm::vec3(-1.37f, 0.3f, 0.0f), glm::vec3(glm::radians(90.0f), 0.0f, 0.0f), glm::vec3(0.3f, 0.6f, 0.3f), Material(Material::ruby));
+MultiBodyObject * ObjectGenerator::createCar(vec3 position) {
+	UnicolorObject* mainBody = new UnicolorObject(cube, vec3(0.0f, 0.3f, 0.0f), vec3(0.0f), vec3(2.56f, 0.2f, 0.2f), Material(Material::black_plastic));
+	UnicolorObject* frontWheel = new UnicolorObject(cylinder, vec3(1.19f, 0.3f, 0.0f), vec3(glm::radians(90.0f), 0.0f, 0.0f), vec3(0.3f, 0.6f, 0.3f), Material(Material::ruby));
+	UnicolorObject* backWheel = new UnicolorObject(cylinder, vec3(-1.37f, 0.3f, 0.0f), vec3(glm::radians(90.0f), 0.0f, 0.0f), vec3(0.3f, 0.6f, 0.3f), Material(Material::ruby));
 
-	MultiBodyObject* car = new MultiBodyObject(position, glm::vec3(0.0f), glm::vec3(1.0f));
+	MultiBodyObject* car = new MultiBodyObject(position, vec3(0.0f), vec3(1.0f));
 	car->addBody(mainBody);
 	car->addBody(frontWheel);
 	car->addBody(backWheel);
@@ -36,10 +36,10 @@ MultiBodyObject * ObjectGenerator::createCar(glm::vec3 position) {
 
 MultiBodyObject * ObjectGenerator::createTree(Terrain* terrain, float x, float z) {
 
-	glm::vec3 brown = glm::vec3(0.54f, 0.27f, 0.07f);
+	vec3 brown = vec3(0.54f, 0.27f, 0.07f);
 	Material leaves = Material(Material::pine_tree);
-	leaves.specular = glm::vec3(0.0f);
-	glm::vec3 position = glm::vec3(x, terrain->getHeight(x, z) - 0.1f, z);
+	leaves.specular = vec3(0.0f);
+	vec3 position = vec3(x, terrain->height(x, z) - 0.1f, z);
 
 	float trunkHeight = 0.8f + (randomFloat() - 0.5f)*0.4f;
 	float trunkRadius = 0.2f + (randomFloat() - 0.5f)*0.04f;
@@ -47,18 +47,18 @@ MultiBodyObject * ObjectGenerator::createTree(Terrain* terrain, float x, float z
 	float branchesHeightMid = 0.7f + (randomFloat() - 0.5f)*0.2f;
 	float branchesScaling = 1.0f + (randomFloat() - 0.5f)*0.2f;
 
-	MultiBodyObject* tree = new MultiBodyObject(position, glm::vec3(0.0f), glm::vec3(1.0f));
-	tree->addBody(new UnicolorObject(cylinder, glm::vec3(0.0f, trunkHeight / 2, 0.0f), glm::vec3(0.0f), TREE_SIZE * glm::vec3(trunkRadius, trunkHeight, trunkRadius), Material(0.2f*brown, 0.7f*brown, 0.1f*brown, 0.05f)));
-	tree->addBody(new UnicolorObject(pyramid10, glm::vec3(0.0f, trunkHeight, 0.0f), glm::vec3(0.0f), TREE_SIZE* branchesScaling*glm::vec3(1.0f, 2.0f, 1.0f), leaves));
-	tree->addBody(new UnicolorObject(pyramid10, glm::vec3(0.0f, trunkHeight + branchesHeightBot, 0.0f), glm::vec3(0.0f), TREE_SIZE * branchesScaling*glm::vec3(0.8f, 1.6f, 0.8f), leaves));
-	tree->addBody(new UnicolorObject(pyramid10, glm::vec3(0.0f, trunkHeight + branchesHeightBot + branchesHeightMid, 0.0f), glm::vec3(0.0f), TREE_SIZE * branchesScaling*glm::vec3(0.6f, 1.2f, 0.6f), leaves));
+	MultiBodyObject* tree = new MultiBodyObject(position, vec3(0.0f), vec3(1.0f));
+	tree->addBody(new UnicolorObject(cylinder, vec3(0.0f, trunkHeight / 2, 0.0f), vec3(0.0f), TREE_SIZE * vec3(trunkRadius, trunkHeight, trunkRadius), Material(0.2f*brown, 0.7f*brown, 0.1f*brown, 0.05f)));
+	tree->addBody(new UnicolorObject(pyramid10, vec3(0.0f, trunkHeight, 0.0f), vec3(0.0f), TREE_SIZE* branchesScaling*vec3(1.0f, 2.0f, 1.0f), leaves));
+	tree->addBody(new UnicolorObject(pyramid10, vec3(0.0f, trunkHeight + branchesHeightBot, 0.0f), vec3(0.0f), TREE_SIZE * branchesScaling*vec3(0.8f, 1.6f, 0.8f), leaves));
+	tree->addBody(new UnicolorObject(pyramid10, vec3(0.0f, trunkHeight + branchesHeightBot + branchesHeightMid, 0.0f), vec3(0.0f), TREE_SIZE * branchesScaling*vec3(0.6f, 1.2f, 0.6f), leaves));
 	return tree;
 }
 
 std::vector<ParticlesObject*> ObjectGenerator::getInstancingTree(Terrain* terrain, unsigned int numberTrees) {
-	glm::vec3 brown = glm::vec3(0.54f, 0.27f, 0.07f);
+	vec3 brown = vec3(0.54f, 0.27f, 0.07f);
 	Material leaves = Material(Material::pine_tree);
-	leaves.specular = glm::vec3(0.0f);
+	leaves.specular = vec3(0.0f);
 
 	float trunkHeight = 0.8f;
 	float trunkRadius = 0.2f;
@@ -67,33 +67,29 @@ std::vector<ParticlesObject*> ObjectGenerator::getInstancingTree(Terrain* terrai
 	float branchesScaling = 1.0f;
 
 	std::vector<ParticlesObject*> treeParts;
-	treeParts.push_back(new ParticlesObject(cylinder, glm::vec3(0.0f, trunkHeight / 2, 0.0f), glm::vec3(0.0f), TREE_SIZE * glm::vec3(trunkRadius, trunkHeight, trunkRadius), Material(0.2f*brown, 0.7f*brown, 0.1f*brown, 0.05f), numberTrees));
-	treeParts.push_back(new ParticlesObject(cone, glm::vec3(0.0f, trunkHeight, 0.0f), glm::vec3(0.0f), TREE_SIZE * branchesScaling*glm::vec3(1.0f, 2.0f, 1.0f), leaves, numberTrees));
-	treeParts.push_back(new ParticlesObject(cone, glm::vec3(0.0f, trunkHeight + branchesHeightBot, 0.0f), glm::vec3(0.0f), TREE_SIZE * branchesScaling*glm::vec3(0.8f, 1.6f, 0.8f), leaves, numberTrees));
-	treeParts.push_back(new ParticlesObject(cone, glm::vec3(0.0f, trunkHeight + branchesHeightBot + branchesHeightMid, 0.0f), TREE_SIZE * glm::vec3(0.0f), branchesScaling*glm::vec3(0.6f, 1.2f, 0.6f), leaves, numberTrees));
+	treeParts.push_back(new ParticlesObject(cylinder, vec3(0.0f, trunkHeight / 2, 0.0f), vec3(0.0f), TREE_SIZE * vec3(trunkRadius, trunkHeight, trunkRadius), Material(0.2f*brown, 0.7f*brown, 0.1f*brown, 0.05f), numberTrees));
+	treeParts.push_back(new ParticlesObject(cone, vec3(0.0f, trunkHeight, 0.0f), vec3(0.0f), TREE_SIZE * branchesScaling*vec3(1.0f, 2.0f, 1.0f), leaves, numberTrees));
+	treeParts.push_back(new ParticlesObject(cone, vec3(0.0f, trunkHeight + branchesHeightBot, 0.0f), vec3(0.0f), TREE_SIZE * branchesScaling*vec3(0.8f, 1.6f, 0.8f), leaves, numberTrees));
+	treeParts.push_back(new ParticlesObject(cone, vec3(0.0f, trunkHeight + branchesHeightBot + branchesHeightMid, 0.0f), TREE_SIZE * vec3(0.0f), branchesScaling*vec3(0.6f, 1.2f, 0.6f), leaves, numberTrees));
 	return treeParts;
-
 }
 
-MultiBodyObject* ObjectGenerator::getTerrainObject(Terrain* terrain) {
+MultiBodyObject* ObjectGenerator::getTerrainObject(Terrain& terrain) {
 	MultiBodyObject* MBO = new MultiBodyObject();
 
+	vector<Vertex> vertexData;
+	vector<vector<vec3>> points;
 
-	std::vector<Vertex> vertexData;
-
-	std::vector<std::vector<glm::vec3>> points;
-
-
-	for (unsigned int iX = 0; iX < terrain->heightMap->getSize(); iX++) {
-		points.push_back(std::vector<glm::vec3>());
-		for (unsigned int iZ = 0; iZ < terrain->heightMap->getSize(); iZ++) {
-			points[iX].push_back(glm::vec3((float)iX / (terrain->heightMap->getSize() - 1) - 0.5f, terrain->heightMap->get(iX, iZ), (float)iZ / (terrain->heightMap->getSize() - 1) - 0.5f));
+	unsigned int mapSize = terrain.heightMap()->size();
+	for (unsigned int iX = 0; iX < mapSize; iX++) {
+		points.push_back(vector<vec3>());
+		for (unsigned int iZ = 0; iZ < mapSize; iZ++) {
+			points[iX].push_back(vec3((float)iX / (mapSize - 1) - 0.5f, terrain.heightMap()->get(iX, iZ), (float)iZ / (mapSize - 1) - 0.5f));
 		}
 	}
 
-
-	for (unsigned int iX = 1; iX < terrain->heightMap->getSize(); iX++) {
-		for (unsigned int iZ = 1; iZ < terrain->heightMap->getSize(); iZ++) {
+	for (unsigned int iX = 1; iX < mapSize; iX++) {
+		for (unsigned int iZ = 1; iZ < mapSize; iZ++) {
 			MeshDataGenerator::addTriangle(&vertexData, points[iX][iZ], points[iX - 1][iZ - 1], points[iX - 1][iZ]);
 			MeshDataGenerator::addTriangle(&vertexData, points[iX][iZ], points[iX][iZ - 1], points[iX - 1][iZ - 1]);
 		}
@@ -101,17 +97,17 @@ MultiBodyObject* ObjectGenerator::getTerrainObject(Terrain* terrain) {
 
 	Mesh<Vertex>* mesh = new Mesh<Vertex>(vertexData);
 	Material material = Material(Material::dark_grass);
-	material.specular = glm::vec3(0.0f);
-	MBO->addBody(new UnicolorObject(mesh, glm::vec3(0.0), glm::vec3(0.0f), glm::vec3(terrain->width, 1.0f, terrain->width), material));
+	material.specular = vec3(0.0f);
+	MBO->addBody(new UnicolorObject(mesh, vec3(0.0), vec3(0.0f), vec3(terrain.width(), 1.0f, terrain.width()), material));
 
 	return MBO;
 }
 
 MultiBodyObject* ObjectGenerator::getQuadrocopter() {
 	MultiBodyObject* quadcopterObject = new MultiBodyObject();
-	quadcopterObject->addBody(new UnicolorObject(cylinder, glm::vec3(0.5f, 0.0f, -0.5f), glm::vec3(0.0f), glm::vec3(0.2f, 0.05f, 0.2f), Material(Material::jade)));
-	quadcopterObject->addBody(new UnicolorObject(cylinder, glm::vec3(0.5f, 0.0f, 0.5f), glm::vec3(0.0f), glm::vec3(0.2f, 0.05f, 0.2f), Material(Material::jade)));
-	quadcopterObject->addBody(new UnicolorObject(cylinder, glm::vec3(-0.5f, 0.0f, -0.5f), glm::vec3(0.0f), glm::vec3(0.2f, 0.05f, 0.2f), Material(Material::jade)));
-	quadcopterObject->addBody(new UnicolorObject(cylinder, glm::vec3(-0.5f, 0.0f, 0.5f), glm::vec3(0.0f), glm::vec3(0.2f, 0.05f, 0.2f), Material(Material::jade)));
+	quadcopterObject->addBody(new UnicolorObject(cylinder, vec3(0.5f, 0.0f, -0.5f), vec3(0.0f), vec3(0.2f, 0.05f, 0.2f), Material(Material::jade)));
+	quadcopterObject->addBody(new UnicolorObject(cylinder, vec3(0.5f, 0.0f, 0.5f), vec3(0.0f), vec3(0.2f, 0.05f, 0.2f), Material(Material::jade)));
+	quadcopterObject->addBody(new UnicolorObject(cylinder, vec3(-0.5f, 0.0f, -0.5f), vec3(0.0f), vec3(0.2f, 0.05f, 0.2f), Material(Material::jade)));
+	quadcopterObject->addBody(new UnicolorObject(cylinder, vec3(-0.5f, 0.0f, 0.5f), vec3(0.0f), vec3(0.2f, 0.05f, 0.2f), Material(Material::jade)));
 	return quadcopterObject;
 }

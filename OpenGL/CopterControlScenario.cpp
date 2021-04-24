@@ -1,19 +1,17 @@
 #include "CopterControlScenario.h"
 
-
+using std::unique_ptr;
 
 CopterControlScenario::CopterControlScenario(Renderer * renderer, ObjectGenerator * generator) : 
-	Scenario(renderer->getWidth(), renderer->getHeight()) {
+		Scenario(renderer->getWidth(), renderer->getHeight()) {
 
 	renderer->setDirectioalLight(DirectionalLight(glm::vec3(-1.0f), ThreeComponentColor(0.5f)));
-
 	camera = Camera(0.0f, 1.0f, 3.0f, 0.0f, 1.0f, 0.0f, glm::radians(-90.0f), 0.0f);
 	
 	// Terrain
-	float terrainSize = 100;
-	HeightMap<200>* heightMap = new HeightMap<200>();
-	TerrainTools::addPerlinNoise(heightMap, 32, 0.5f);
-	Terrain* terrain = new Terrain(terrainSize, heightMap);
+	unique_ptr<HeightMap> heightMap = unique_ptr<HeightMap>(new HeightMap(200));
+	TerrainTools::addPerlinNoise(heightMap.get(), 32, 0.5f);
+	Terrain terrain = Terrain(TERRAIN_SIZE, heightMap.get());
 	renderer->addMultiBodyObject(generator->getTerrainObject(terrain));
 
 

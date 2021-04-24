@@ -1,5 +1,4 @@
 #pragma once
-
 #include <glad/glad.h>
 #include <GLFW\glfw3.h>
 #include <glm/detail/setup.hpp>
@@ -7,8 +6,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-#include <vector>
-#include <string>
 #include "Shader.h"
 #include "stb_image.h"
 #include "ShaderSet.h"
@@ -20,9 +17,10 @@
 #include "SingleTrackScenario.h"
 #include "CopterControlScenario.h"
 #include "Screen.h"
-#include <exception>
 
 enum class ScenarioType { SingleTrack, QuadcopterFlight, QuadcopterControl };
+
+using std::unique_ptr;
 
 //constexpr ScenarioType SCENARIO_TYPE = ScenarioType::SingleTrack;
 constexpr ScenarioType SCENARIO_TYPE = ScenarioType::QuadcopterFlight;
@@ -35,12 +33,13 @@ glm::vec3 BACKGROUND_COLOR = glm::vec3(135, 206, 235)/256.0f;
 constexpr unsigned int HOTKEY_RESTART = GLFW_KEY_F5;
 constexpr unsigned int HOTKEY_QUIT = GLFW_KEY_ESCAPE;
 constexpr unsigned int HOTKEY_TOGGLE_WINDOW_MODE = GLFW_KEY_F10;
+constexpr unsigned int HOTKEY_TOGGLE_DEPTH_MAP_MODE = GLFW_KEY_F9;
 
 float lastX = 0, lastY = 0;
 float lastFrame = 0.0f, deltaTime = 0.0f;
 bool isFirstMouseMovement = false;
-Scenario* scenario;
-Screen* screen;
+unique_ptr<Scenario> scenario;
+unique_ptr<Screen> screen;
 KeyboardEvents keyboardEvents;
 KeyStates keyStates;
 Renderer renderer;
@@ -48,12 +47,9 @@ Renderer renderer;
 int main() {
 
 	try {
-		screen = new Screen();
-	}
+		screen = unique_ptr<Screen>(new Screen()); }
 	catch (std::runtime_error& e) {
-		std::cout << e.what() << std::endl;
-		return 1;
-	}
+		std::cout  << e.what() << std::endl; return 1; }
 	glfwSetFramebufferSizeCallback(screen->getWindow(), framebuffer_size_callback);
 	glfwSetCursorPosCallback(screen->getWindow(), mouse_callback);
 
@@ -64,11 +60,11 @@ int main() {
 
 	ObjectGenerator generator = ObjectGenerator();
 	if (SCENARIO_TYPE == ScenarioType::SingleTrack)
-		scenario = new SingleTrackScenario(&renderer, &generator);
+		scenario = unique_ptr<Scenario>(new SingleTrackScenario(&renderer, &generator));
 	else if (SCENARIO_TYPE == ScenarioType::QuadcopterFlight)
-		scenario = new QuadcopterScenario(&renderer, &generator);
+		scenario = unique_ptr<Scenario>(new QuadcopterScenario(&renderer, &generator));
 	else
-		scenario = new CopterControlScenario(&renderer, &generator);
+		scenario = unique_ptr<Scenario>(new CopterControlScenario(&renderer, &generator));
 		
 	while (!screen->shouldClose()) {
 		
@@ -81,23 +77,21 @@ int main() {
 			scenario->restart();
 		if (keyboardEvents.wasTapped(HOTKEY_TOGGLE_WINDOW_MODE)) 
 			screen->toggleWindowMode();
+		if (keyboardEvents.wasTapped(HOTKEY_TOGGLE_DEPTH_MAP_MODE))
+			renderer.toggleDepthMapMode();
 	
-		renderer.processKeyboardEvents(&keyboardEvents);
 		renderer.setView(scenario->getViewMatrix(), scenario->getCameraPosition());
 		renderer.draw();
 
 		scenario->onFrameChange(&keyboardEvents, deltaTime);
 
-		glfwSwapBuffers(screen->getWindow());
-		
+		screen->swapBuffers();
 
 		deltaTime = glfwGetTime() - lastFrame;
 		lastFrame = glfwGetTime();
 	}
 
 	screen->terminate();
-	delete scenario;
-	delete screen;
 	return 0;
 }
 
@@ -119,8 +113,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 	scenario->mouseCallback(xoffset, yoffset);
 }
 
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
+// GLFW: whenever the window size changed (by OS or user resize) this callback function executes
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
